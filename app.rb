@@ -37,7 +37,7 @@ end
 
 get '/fill-database' do
   status = 200
-  rpta = 'Se ha creado ha actualizado la base de datos'
+  rpta = 'Se ha creado la base de datos'
   mensaje_class = 'success'
   # nokogiri
   url = 'https://www.youtube.com/watch?v=NjQYm5LneEo'
@@ -127,7 +127,7 @@ end
 
 get '/eliminar/:id' do
   status = 200
-  rpta = 'Se ha creado ha actualizado la base de datos'
+  rpta = 'Se ha eliminado el video de la base de datos'
   mensaje_class = 'success'
   DB.transaction do
     begin
