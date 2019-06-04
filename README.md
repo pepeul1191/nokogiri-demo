@@ -30,6 +30,7 @@ MySQL:
 
 ```
     CREATE SCHEMA noko;
+    USE noko;
     CREATE TABLE videos(
         id INT PRIMARY KEY AUTO_INCREMENT,
         link TEXT,
