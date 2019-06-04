@@ -37,10 +37,11 @@ end
 
 get '/fill-database' do
   status = 200
-  rpta = 'Ok'
+  rpta = 'Se ha creado ha actualizado la base de datos'
+  mensaje_class = 'success'
   # nokogiri
   url = 'https://www.youtube.com/watch?v=NjQYm5LneEo'
-  if params['url'] != nil
+  if params['url'] != nil || params['url'] == ''
     url = params['url']
   end
   response = HTTParty.get(url)
@@ -93,17 +94,60 @@ get '/fill-database' do
           'Se ha producido un error en cargar los datos de la url ' + url,
           e.message
         ]}.to_json
+      mensaje_class = 'danger'
     end
   end
   status status
-  rpta
+  locals = {
+    :title => 'Bienvenido',
+    :mensaje => rpta,
+    :mensaje_class => mensaje_class,
+    :videos => Video.all.to_a,
+  }
+  erb :'index', :layout => :'layouts/blank', :locals => locals
 end
 
 get '/' do
   locals = {
-    # :constants => CONSTANTS,
     :title => 'Bienvenido',
     :mensaje => '',
+    :videos => Video.all.to_a,
+  }
+  erb :'index', :layout => :'layouts/blank', :locals => locals
+end
+
+get '/generar' do
+  locals = {
+    :title => 'Generar Base de Datos',
+    :mensaje => '',
+  }
+  erb :'generar', :layout => :'layouts/blank', :locals => locals
+end
+
+get '/eliminar/:id' do
+  status = 200
+  rpta = 'Se ha creado ha actualizado la base de datos'
+  mensaje_class = 'success'
+  DB.transaction do
+    begin
+      Video.where(:id => params['id']).delete
+    rescue Exception => e
+      Sequel::Rollback
+      status = 500
+      rpta = {
+        :tipo_mensaje => 'error',
+        :mensaje => [
+          'Se ha producido un error en eliminar el video',
+          e.message
+        ]}.to_json
+      mensaje_class = 'danger'
+    end
+  end
+  status status
+  locals = {
+    :title => 'Bienvenido',
+    :mensaje => rpta,
+    :mensaje_class => mensaje_class,
     :videos => Video.all.to_a,
   }
   erb :'index', :layout => :'layouts/blank', :locals => locals

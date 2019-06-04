@@ -1,6 +1,7 @@
 <br>
 <h4>Lista de Videos</h4>
-<label><%= mensaje %></label>
+<label class="text-<%= mensaje_class %>"><%= mensaje %></label>
+<br>
 <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
@@ -21,9 +22,9 @@
             <td><%= v.views %></td>
             <td><img src="<%= v.image %>" alt=""></td>
             <td>
-                <a href="<%= v.link %>" class="btn btn-info" target="_blank">Ver</a>
-                <a href="editar/<%= v.id %>" class="btn btn-dark">Editar</a>
-                <a href="eliminar/<%= v.id %>" class="btn btn-danger">Eliminar</a>
+                <a href="/<%= v.link %>" class="btn btn-info" target="_blank">Ver</a>
+                <a href="/editar/<%= v.id %>" class="btn btn-dark">Editar</a>
+                <a href="/eliminar/<%= v.id %>" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
         <% end %>
@@ -31,6 +32,7 @@
     <tfoot>
         <tr>
             <a href="agregar" class="btn btn-primary">Agregar</a>
+            </br>
         </tr>
     </tfoot>
 </table>
