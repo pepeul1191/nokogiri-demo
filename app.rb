@@ -30,9 +30,17 @@ end
 """
 
 doc.css('#watch-related', '.video-list-item').each do |item_list|
+  puts '++++++++++++++++++++++++++++'
   # link del video
   # puts item_list.css('.content-wrapper a').attribute('href')
   # duracion del video
   # puts item_list.css('.thumb-wrapper a').text
-  #item_list.css('.thumb-wrapper')
+  # imagen del video
+  # puts item_list.css('.thumb-wrapper a img').attribute('data-thumb')
+  # nombre del video
+  # puts item_list.css('.content-wrapper .title').text.delete!("\n")[4..-3]
+  # vistas del video
+  # puts item_list.css('.content-wrapper .view-count').text[0..-7]
+  # autor del video
+  puts item_list.css('.content-wrapper .attribution span').text
 end
