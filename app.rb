@@ -5,7 +5,7 @@ response = HTTParty.get('https://www.youtube.com/watch?v=6U1E5A1QwmA')
 
 doc = Nokogiri::HTML(response.body)
 
-File.write('demo.html', doc)
+# File.write('demo.html', doc)
 
 puts 'texto del title de sitio web'
 puts '  ' + doc.css('title')[0].text
@@ -30,17 +30,20 @@ end
 """
 
 doc.css('#watch-related', '.video-list-item').each do |item_list|
-  puts '++++++++++++++++++++++++++++'
   # link del video
-  # puts item_list.css('.content-wrapper a').attribute('href')
+  link = item_list.css('.content-wrapper a').attribute('href')
   # duracion del video
-  # puts item_list.css('.thumb-wrapper a').text
+  duration = item_list.css('.thumb-wrapper a').text
   # imagen del video
-  # puts item_list.css('.thumb-wrapper a img').attribute('data-thumb')
+  image = item_list.css('.thumb-wrapper a img').attribute('data-thumb')
   # nombre del video
-  # puts item_list.css('.content-wrapper .title').text.delete!("\n")[4..-3]
+  name = item_list.css('.content-wrapper .title').text.delete!("\n")[4..-3]
   # vistas del video
-  # puts item_list.css('.content-wrapper .view-count').text[0..-7]
-  # autor del video
-  puts item_list.css('.content-wrapper .attribution span').text
+  views = item_list.css('.content-wrapper .view-count').text[0..-7]
+  # author del video
+  author = item_list.css('.content-wrapper .attribution span').text
+  # temp string
+  temp = 'INSERT INTO videos (link, duration, image, name, views, author) ' +
+    '("%s", "%s", "%s", "%s", "%s", "%s")' % [link, duration, image, name, views, author]
+  puts temp
 end
