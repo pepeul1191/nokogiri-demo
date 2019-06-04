@@ -31,7 +31,7 @@ end
 
 doc.css('#watch-related', '.video-list-item').each do |item_list|
   # link del video
-  link = item_list.css('.content-wrapper a').attribute('href')
+  link = 'https://www.youtube.com' + item_list.css('.content-wrapper a').attribute('href')
   # duracion del video
   duration = item_list.css('.thumb-wrapper a').text
   # imagen del video
