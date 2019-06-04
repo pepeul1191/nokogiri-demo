@@ -32,12 +32,12 @@ MySQL:
     CREATE SCHEMA noko;
     CREATE TABLE videos(
         id INT PRIMARY KEY AUTO_INCREMENT,
-        link VARCHAR(200),
-        duration VARCHAR(20),
-        image VARCHAR(100),
-        name VARCHAR(100),
-        views VARCHAR(20),
-        author VARCHAR(30));
+        link TEXT,
+        duration TEXT,
+        image TEXT,
+        name TEXT,
+        views TEXT,
+        author TEXT);
 ```
 
 ---
