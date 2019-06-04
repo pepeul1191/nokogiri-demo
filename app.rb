@@ -112,6 +112,7 @@ get '/' do
     :title => 'Bienvenido',
     :mensaje => '',
     :videos => Video.all.to_a,
+    :mensaje_class => '',
   }
   erb :'index', :layout => :'layouts/blank', :locals => locals
 end
