@@ -1,0 +1,10 @@
+.DS_Store
+vendor/gems/*
+!vendor/gems/cache/
+.sass-cache/*
+.*.sw*
+Gemfile.lock
+.bundle
+bin/
+bower_components
+.~lock*
