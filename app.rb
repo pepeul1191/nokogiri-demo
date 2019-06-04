@@ -1,5 +1,28 @@
 require 'httparty'
 require 'nokogiri'
+require 'sequel'
+require 'mysql2'
+
+# database config
+
+Sequel::Model.plugin :json_serializer
+
+DB = Sequel.connect(
+  adapter: 'mysql2', 
+  host: 'localhost', 
+  database: 'noko', 
+  user: 'root', 
+  password: '',
+  port: 3306,
+)
+
+class Video < Sequel::Model(DB[:videos])
+
+end
+
+# sinatra config
+
+# sinatra routes
 
 response = HTTParty.get('https://www.youtube.com/watch?v=6U1E5A1QwmA')
 
