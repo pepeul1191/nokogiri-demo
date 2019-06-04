@@ -23,6 +23,16 @@ end
 
 # sinatra config
 
+set :public_folder, File.dirname(__FILE__) + '/public'
+set :layout, 'views/layouts'
+
+before do
+  headers['Access-Control-Allow-Origin'] = '*'
+  headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
+  headers['Content-type'] = 'text/html; charset=UTF-8'
+  headers['server'] = 'Ruby, Ubuntu'
+end
+
 # sinatra routes
 
 get '/fill-database' do
@@ -45,29 +55,34 @@ get '/fill-database' do
     end
     # grabar nuevos registros
     begin
+      contador = 0
       doc.css('#watch-related', '.video-list-item').each do |item_list|
-        # link del video
-        link = 'https://www.youtube.com' + item_list.css('.content-wrapper a').attribute('href')
-        # duracion del video
-        duration = item_list.css('.thumb-wrapper a .video-time')[0].text
-        # imagen del video
-        image = item_list.css('.thumb-wrapper a img').attribute('data-thumb')
-        # nombre del video
-        name = item_list.css('.content-wrapper .title').text.delete!("\n")[4..-3]
-        # vistas del video
-        views = item_list.css('.content-wrapper .view-count').text[0..-7]
-        # author del video
-        author = item_list.css('.content-wrapper .attribution span').text
-        # temp string
-        n = Video.new(
-          :link => link,
-          :duration => duration,
-          :image => image,
-          :name => name,
-          :views => views,
-          :author => author,
-        )
-        n.save
+        if contador != 0
+          # link del video
+          link = 'https://www.youtube.com' + item_list.css('.content-wrapper a').attribute('href')
+          # duracion del video
+          duration = item_list.css('.thumb-wrapper a .video-time')[0].text
+          # imagen del video
+          image = item_list.css('.thumb-wrapper a img').attribute('data-thumb')
+          # nombre del video
+          name = item_list.css('.content-wrapper .title').text.delete!("\n")[4..-3]
+          # vistas del video
+          views = item_list.css('.content-wrapper .view-count').text[0..-7]
+          # author del video
+          author = item_list.css('.content-wrapper .attribution span').text
+          # temp string
+          n = Video.new(
+            :link => link,
+            :duration => duration,
+            :image => image,
+            :name => name,
+            :views => views,
+            :author => author,
+          )
+          n.save
+        else
+          contador = 1
+        end
       end
     rescue Exception => e
       Sequel::Rollback
@@ -82,4 +97,14 @@ get '/fill-database' do
   end
   status status
   rpta
+end
+
+get '/' do
+  locals = {
+    # :constants => CONSTANTS,
+    :title => 'Bienvenido',
+    :mensaje => '',
+    :videos => Video.all.to_a,
+  }
+  erb :'index', :layout => :'layouts/blank', :locals => locals
 end

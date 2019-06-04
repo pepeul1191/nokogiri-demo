@@ -1,0 +1,34 @@
+<h1>Lista de Videos</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Duration</th>
+            <th>Views</th>
+            <th>Imagen</th>
+            <th>Operaciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for v in videos %>
+        <tr>
+            <td><%= v.name %></td>
+            <td><%= v.author %></td>
+            <td><%= v.duration %></td>
+            <td><%= v.views %></td>
+            <td><img src="<%= v.image %>" alt=""></td>
+            <td>
+                <a href="ver/<%= v.id %>">Ver</a>
+                <a href="editar/<%= v.id %>">Editar</a>
+                <a href="eliminar/<%= v.id %>">Eliminar</a>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+    <tfoot>
+        <tr>
+            <a href="agregar">Agregar</a>
+        </tr>
+    </tfoot>
+</table>
