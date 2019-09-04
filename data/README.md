@@ -23,6 +23,38 @@ profes.json
       }
     ]
   },
-...
+```
 
+SQL de la base de datos
+
+
+```
+CREATE TABLE `carrers` (
+	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`name`	TEXT NOT NULL
+);
+
+CREATE TABLE `teachers` (
+	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`names`	TEXT NOT NULL,
+	`last_names`	INTEGER NOT NULL,
+	`img`	TEXT NOT NULL
+);
+
+CREATE TABLE `teachers_carrers` (
+	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`teacher_id`	INTEGER NOT NULL,
+	`carrer_id`	INTEGER NOT NULL
+);
+
+
+```
+
+JOIN teachers_carrers
+
+```
+SELECT T.id AS teacher_id, T.names, T.last_names, T.img, C.id AS carrer_id,  C.name AS carrer_name
+FROM teachers T
+INNER JOIN teachers_carrers TC ON TC.teacher_id = T.id
+INNER JOIN carrers C ON TC.carrer_id = C.id ;
 ```
