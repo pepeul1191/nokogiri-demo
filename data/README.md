@@ -1,5 +1,7 @@
 # Formatos
 
+## JSON
+
 profes.json
 
 ```
@@ -25,6 +27,8 @@ profes.json
   },
 ```
 
+## SQLite3
+
 SQL de la base de datos
 
 
@@ -47,7 +51,6 @@ CREATE TABLE `teachers_carrers` (
 	`carrer_id`	INTEGER NOT NULL
 );
 
-
 ```
 
 JOIN teachers_carrers
@@ -58,3 +61,13 @@ FROM teachers T
 INNER JOIN teachers_carrers TC ON TC.teacher_id = T.id
 INNER JOIN carrers C ON TC.carrer_id = C.id ;
 ```
+
+## MongoDB
+
+Comandos backup de MongoDB
+
+    $ mongodump --db profes --host localhost --port 27017 --out ../db
+
+Comandos restore de MongoDB
+
+    $ mongorestore --db profes --host localhost --port 27017 ../db/profes
