@@ -71,3 +71,57 @@ Comandos backup de MongoDB
 Comandos restore de MongoDB
 
     $ mongorestore --db profes --host localhost --port 27017 ../db/profes
+
+JOIN teachers_carrers
+
+```
+db.teachers.aggregate([
+  {
+    $unwind: "$carrers"
+  },
+  {
+    $lookup: {
+      from: "carrers",
+      localField: "carrers",
+      foreignField: "_id",
+      as: "carrer"
+    },
+  },
+  {
+    $unwind: "$carrer"
+  },
+  {
+    $group: {
+        "_id": "$_id",
+        "names": {
+          $push: "$names"
+        },
+        "last_names": {
+          $push: "$last_names"
+        },
+        "img": {
+          $push: "$img"
+        },
+        "carrers": {
+          $push: "$carrer"
+        }
+    }
+  },
+  {
+    $project: {
+      "_id": "$_id",
+      "names": { $arrayElemAt: [ "$names", 0 ] },
+      "last_names": { $arrayElemAt: [ "$last_names", 0 ] },
+      "img": { $arrayElemAt: [ "$img", 0 ] },
+      carrers: "$carrers",
+    }
+  }
+])
+
+```
+
+---
+
+Fuentes:
+
++ https://stackoverflow.com/questions/34967482/lookup-on-objectids-in-an-array
