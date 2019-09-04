@@ -23,7 +23,7 @@ class Teacher
   field :names, type: String
   field :last_names, type: String
   field :img, type: String
-  # embeds_many :hours
+  field :carrers, type: Array, :default => []
 end
 
 class Carrer
@@ -53,4 +53,34 @@ def insert_carrers
   end
 end
 
-insert_carrers
+def insert_teachers
+  file = File.read('profes.json')
+  teachers = JSON.parse(file)
+  begin
+    teachers.each do |teacher|
+      full_name = teacher['name']
+      name_array = full_name.split(', ')
+      names = name_array[1]
+      last_names = name_array[0]
+      if Teacher.find_by(names: names, last_names: last_names) == nil
+        carrers_ids = []
+        teacher['carrers'].each do |carrer|
+          carrer_db = Carrer.find_by(name: carrer['name'])
+          carrers_ids.push(carrer_db._id)
+        end
+        n = {
+          :names => names,
+          :last_names => last_names,
+          :img => teacher['img'],
+          :carrers => carrers_ids,
+        }
+        Teacher.create(n)
+      end
+    end
+  rescue Exception => e
+    puts e
+  end
+end
+
+# insert_carrers
+insert_teachers
