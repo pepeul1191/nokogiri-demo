@@ -100,11 +100,13 @@ def insert_teachers_carrers
         teacher_db = Teacher.find(names: names, last_names: last_names)
         teacher['carrers'].each do |carrer|
           carrer_db = Carrer.find(name: carrer['name'])
-          n = TeacherCarrer.new(
-            :teacher_id => teacher_db.id,
-            :carrer_id => carrer_db.id,
-          )
-          n.save
+          if TeacherCarrer.find(teacher_id: teacher_db.id, carrer_id: carrer_db.id) == nil 
+            n = TeacherCarrer.new(
+              :teacher_id => teacher_db.id,
+              :carrer_id => carrer_db.id,
+            )
+            n.save
+          end
         end
       end
     rescue Exception => e
