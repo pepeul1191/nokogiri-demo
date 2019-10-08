@@ -1,13 +1,23 @@
 require 'json'
 require 'sequel'
 require 'sqlite3'
+require 'mysql2'
 
 
 # database and models config
 
 Sequel::Model.plugin :json_serializer
 
-DB = Sequel.connect('sqlite://../db/profes.db')
+# DB = Sequel.connect('sqlite://../db/profes.db')
+
+DB = Sequel.connect(
+  adapter: 'mysql2',
+  host: 'localhost',
+  database: 'demo',
+  user: 'root',
+  password: '123',
+  port: 3306,
+)
 
 class Carrer < Sequel::Model(DB[:carrers])
 
@@ -62,6 +72,8 @@ def insert_teachers
             :names => names,
             :last_names => last_names,
             :img => teacher['img'],
+            :district_id => rand(1..1800),
+            :sex_id => rand(1..2),
           )
           n.save
         end
@@ -102,4 +114,4 @@ def insert_teachers_carrers
   end
 end
 
-# insert_teachers_carrers
+insert_teachers_carrers
